@@ -1,0 +1,49 @@
+workspace:
+  base: /srv/app
+  path: src/github.com/toolhippie/shellcheck
+
+branches:
+  - master
+
+clone:
+  git:
+    image: plugins/git
+    pull: true
+    tags: true
+
+pipeline:
+  docker-amd64:
+    image: plugins/docker:17.12
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    repo: toolhippie/shellcheck
+    auto_tag: true
+    dry_run: true
+    when:
+      event: [ pull_request ]
+
+  docker-amd64:
+    image: plugins/docker:17.12
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    repo: toolhippie/shellcheck
+    auto_tag: true
+    when:
+      event: [ push, tag ]
+
+  docker-microbadger:
+    image: plugins/webhook:1
+    pull: true
+    secrets: [ webhook_urls ]
+    when:
+      local: false
+      event: [ push, tag ]
+
+  notify-matrix:
+    image: plugins/matrix:1
+    pull: true
+    secrets: [ matrix_roomid, matrix_username, matrix_password ]
+    when:
+      local: false
+      event: [ push, tag ]
+      status: [ changed, failure ]
