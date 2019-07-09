@@ -1,6 +1,6 @@
-# Shellcheck
+# shellcheck
 
-[![Build Status](https://github.dronehippie.de/api/badges/toolhippie/shellcheck/status.svg)](https://github.dronehippie.de/toolhippie/shellcheck)
+[![Build Status](https://cloud.drone.io/api/badges/toolhippie/shellcheck/status.svg)](https://cloud.drone.io/toolhippie/shellcheck)
 [![](https://images.microbadger.com/badges/image/toolhippie/shellcheck:latest.svg)](https://microbadger.com/images/toolhippie/shellcheck:latest "Get your own image badge on microbadger.com")
 
 TBD

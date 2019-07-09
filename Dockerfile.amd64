@@ -1,6 +1,6 @@
 FROM webhippie/alpine:latest AS build
 
-ENV SHELLCHECK_VERSION v0.5.0
+ENV SHELLCHECK_VERSION v0.6.0
 ENV SHELLCHECK_DOWNLOAD https://github.com/koalaman/shellcheck/archive/${SHELLCHECK_VERSION}.tar.gz
 
 RUN apk update && \

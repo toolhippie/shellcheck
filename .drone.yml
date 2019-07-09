@@ -1,49 +1,204 @@
-workspace:
-  base: /srv/app
-  path: src/github.com/toolhippie/shellcheck
+---
+kind: pipeline
+name: amd64
 
-branches:
-  - master
+platform:
+  os: linux
+  arch: amd64
 
-clone:
-  git:
-    image: plugins/git
-    pull: true
-    tags: true
-
-pipeline:
-  docker-amd64:
-    image: plugins/docker:17.12
-    pull: true
-    secrets: [ docker_username, docker_password ]
+steps:
+- name: dryrun
+  pull: always
+  image: plugins/docker:latest
+  settings:
     repo: toolhippie/shellcheck
-    auto_tag: true
+    tags: amd64
+    dockerfile: Dockerfile.amd64
     dry_run: true
-    when:
-      event: [ pull_request ]
+  when:
+    event:
+    - pull_request
 
-  docker-amd64:
-    image: plugins/docker:17.12
-    pull: true
-    secrets: [ docker_username, docker_password ]
+- name: publish
+  pull: always
+  image: plugins/docker:latest
+  settings:
     repo: toolhippie/shellcheck
-    auto_tag: true
-    when:
-      event: [ push, tag ]
+    tags: amd64
+    dockerfile: Dockerfile.amd64
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event:
+      exclude:
+      - pull_request
 
-  docker-microbadger:
-    image: plugins/webhook:1
-    pull: true
-    secrets: [ webhook_urls ]
-    when:
-      local: false
-      event: [ push, tag ]
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/tags/**
+  - refs/pull/**
 
-  notify-matrix:
-    image: plugins/matrix:1
-    pull: true
-    secrets: [ matrix_roomid, matrix_username, matrix_password ]
-    when:
-      local: false
-      event: [ push, tag ]
-      status: [ changed, failure ]
+---
+kind: pipeline
+name: arm32v6
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+- name: dryrun
+  pull: always
+  image: plugins/docker:latest
+  settings:
+    repo: toolhippie/shellcheck
+    tags: arm32v6
+    dockerfile: Dockerfile.arm32v6
+    dry_run: true
+  when:
+    event:
+    - pull_request
+
+- name: publish
+  pull: always
+  image: plugins/docker:latest
+  settings:
+    repo: toolhippie/shellcheck
+    tags: arm32v6
+    dockerfile: Dockerfile.arm32v6
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event:
+      exclude:
+      - pull_request
+
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/tags/**
+  - refs/pull/**
+
+---
+kind: pipeline
+name: arm64v8
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+- name: dryrun
+  pull: always
+  image: plugins/docker:latest
+  settings:
+    repo: toolhippie/shellcheck
+    tags: arm64v8
+    dockerfile: Dockerfile.arm64v8
+    dry_run: true
+  when:
+    event:
+    - pull_request
+
+- name: publish
+  pull: always
+  image: plugins/docker:latest
+  settings:
+    repo: toolhippie/shellcheck
+    tags: arm64v8
+    dockerfile: Dockerfile.arm64v8
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event:
+      exclude:
+      - pull_request
+
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/tags/**
+  - refs/pull/**
+
+---
+kind: pipeline
+name: manifest
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: manifest
+  pull: always
+  image: plugins/manifest:1
+  settings:
+    spec: manifest.tmpl
+    ignore_missing: true
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/tags/**
+
+depends_on:
+- amd64
+- arm32v6
+- arm64v8
+
+---
+kind: pipeline
+name: notification
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: microbadger
+  pull: always
+  image: plugins/webhook:1
+  settings:
+    urls:
+      from_secret: microbadger_url
+  when:
+    status:
+    - success
+
+- name: notify
+  image: plugins/matrix:1
+  pull: always
+  settings:
+    username:
+      from_secret: matrix_username
+    password:
+      from_secret: matrix_password
+    roomid:
+      from_secret: matrix_roomid
+  when:
+    status:
+    - failure
+
+depends_on:
+- amd64
+- arm32v6
+- arm64v8
+- manifest
+
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/tags/**
+
+...
