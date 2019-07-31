@@ -41,91 +41,91 @@ trigger:
   - refs/tags/**
   - refs/pull/**
 
-# ---
-# kind: pipeline
-# name: arm32v6
+---
+kind: pipeline
+name: arm32v6
 
-# platform:
-#   os: linux
-#   arch: arm
+platform:
+  os: linux
+  arch: arm
 
-# steps:
-# - name: dryrun
-#   pull: always
-#   image: plugins/docker:latest
-#   settings:
-#     repo: toolhippie/shellcheck
-#     tags: arm32v6
-#     dockerfile: Dockerfile.arm32v6
-#     dry_run: true
-#   when:
-#     event:
-#     - pull_request
+steps:
+- name: dryrun
+  pull: always
+  image: plugins/docker:latest
+  settings:
+    repo: toolhippie/shellcheck
+    tags: arm32v6
+    dockerfile: Dockerfile.arm32v6
+    dry_run: true
+  when:
+    event:
+    - pull_request
 
-# - name: publish
-#   pull: always
-#   image: plugins/docker:latest
-#   settings:
-#     repo: toolhippie/shellcheck
-#     tags: arm32v6
-#     dockerfile: Dockerfile.arm32v6
-#     username:
-#       from_secret: docker_username
-#     password:
-#       from_secret: docker_password
-#   when:
-#     event:
-#       exclude:
-#       - pull_request
+- name: publish
+  pull: always
+  image: plugins/docker:latest
+  settings:
+    repo: toolhippie/shellcheck
+    tags: arm32v6
+    dockerfile: Dockerfile.arm32v6
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event:
+      exclude:
+      - pull_request
 
-# trigger:
-#   ref:
-#   - refs/heads/master
-#   - refs/tags/**
-#   - refs/pull/**
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/tags/**
+  - refs/pull/**
 
-# ---
-# kind: pipeline
-# name: arm64v8
+---
+kind: pipeline
+name: arm64v8
 
-# platform:
-#   os: linux
-#   arch: arm64
+platform:
+  os: linux
+  arch: arm64
 
-# steps:
-# - name: dryrun
-#   pull: always
-#   image: plugins/docker:latest
-#   settings:
-#     repo: toolhippie/shellcheck
-#     tags: arm64v8
-#     dockerfile: Dockerfile.arm64v8
-#     dry_run: true
-#   when:
-#     event:
-#     - pull_request
+steps:
+- name: dryrun
+  pull: always
+  image: plugins/docker:latest
+  settings:
+    repo: toolhippie/shellcheck
+    tags: arm64v8
+    dockerfile: Dockerfile.arm64v8
+    dry_run: true
+  when:
+    event:
+    - pull_request
 
-# - name: publish
-#   pull: always
-#   image: plugins/docker:latest
-#   settings:
-#     repo: toolhippie/shellcheck
-#     tags: arm64v8
-#     dockerfile: Dockerfile.arm64v8
-#     username:
-#       from_secret: docker_username
-#     password:
-#       from_secret: docker_password
-#   when:
-#     event:
-#       exclude:
-#       - pull_request
+- name: publish
+  pull: always
+  image: plugins/docker:latest
+  settings:
+    repo: toolhippie/shellcheck
+    tags: arm64v8
+    dockerfile: Dockerfile.arm64v8
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event:
+      exclude:
+      - pull_request
 
-# trigger:
-#   ref:
-#   - refs/heads/master
-#   - refs/tags/**
-#   - refs/pull/**
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/tags/**
+  - refs/pull/**
 
 ---
 kind: pipeline
@@ -154,8 +154,8 @@ trigger:
 
 depends_on:
 - amd64
-# - arm32v6
-# - arm64v8
+- arm32v6
+- arm64v8
 
 ---
 kind: pipeline
@@ -192,8 +192,8 @@ steps:
 
 depends_on:
 - amd64
-# - arm32v6
-# - arm64v8
+- arm32v6
+- arm64v8
 - manifest
 
 trigger:

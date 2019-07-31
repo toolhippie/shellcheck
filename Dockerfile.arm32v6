@@ -1,18 +1,9 @@
 FROM webhippie/alpine:latest-arm32v6 AS build
 
-ENV SHELLCHECK_VERSION v0.6.0
-ENV SHELLCHECK_DOWNLOAD https://github.com/koalaman/shellcheck/archive/${SHELLCHECK_VERSION}.tar.gz
+ENV SHELLCHECK_VERSION v0.7.0
 
-RUN apk update && \
-  apk add git cabal ghc musl-dev && \
-  curl -sLo - ${SHELLCHECK_DOWNLOAD} | tar -xzf - --strip 1 -C /tmp
-
-RUN cd /tmp && \
-  cabal update && \
-  cabal install --dependencies-only && \
-  cabal build Paths_ShellCheck && \
-  ghc -optl-static -optl-pthread -isrc -idist/build/autogen --make shellcheck && \
-  strip --strip-all shellcheck
+RUN curl -sLo /tmp/shellcheck https://storage.googleapis.com/shellcheck/shellcheck-${SHELLCHECK_VERSION}.linux-armv6hf && \
+  chmod +x /tmp/shellcheck
 
 FROM webhippie/alpine:latest-arm32v6
 
@@ -25,7 +16,6 @@ ENTRYPOINT ["/usr/bin/shellcheck"]
 
 RUN apk update && \
   apk upgrade && \
-  apk add make && \
   rm -rf /var/cache/apk/*
 
 COPY --from=build /tmp/shellcheck /usr/bin/
