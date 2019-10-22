@@ -60,11 +60,36 @@ def docker(ctx, arch):
 					},
 				},
 			},
+			{
+				'name': 'readme',
+				'image': 'sheogorath/readme-to-dockerhub',
+				'pull': 'always',
+				'environment': {
+					'DOCKERHUB_USERNAME': {
+						'from_secret': 'docker_username',
+					},
+					'DOCKERHUB_PASSWORD': {
+						'from_secret': 'docker_password',
+					},
+					'DOCKERHUB_REPO_PREFIX': 'toolhippie',
+					'DOCKERHUB_REPO_NAME': ctx.repo.name,
+					'SHORT_DESCRIPTION': 'Docker images for %s' % ctx.repo.name,
+					'README_PATH': 'README.md',
+				},
+				'when': {
+					'event': {
+						'exclude': [
+							'pull_request',
+						],
+					},
+				},
+			},
 		],
 		'depends_on': [],
 		'trigger': {
 			'ref': [
 				'refs/heads/master',
+				'refs/pull/**',
 			],
 		},
 	}
