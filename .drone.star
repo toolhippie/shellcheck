@@ -61,11 +61,7 @@ def docker(ctx, arch):
 				},
 			},
 		],
-		'depends_on': [
-			'amd64',
-			'arm',
-			'arm64',
-		],
+		'depends_on': [],
 		'trigger': {
 			'ref': [
 				'refs/heads/master',
