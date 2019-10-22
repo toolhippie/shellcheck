@@ -27,7 +27,7 @@ def docker(ctx, arch):
 					'dry_run': True,
 					'dockerfile': 'Dockerfile.%s' % arch,
 					'tags': 'latest-%s' % arch,
-					'repo': 'toolhippie/%s' % ctx['repo']['name'],
+					'repo': 'toolhippie/%s' % ctx.repo.name,
 				},
 				'when': {
 					'event': {
@@ -50,7 +50,7 @@ def docker(ctx, arch):
 					},
 					'dockerfile': 'Dockerfile.%s' % arch,
 					'tags': 'latest-%s' % arch,
-					'repo': 'toolhippie/%s' % ctx['repo']['name'],
+					'repo': 'toolhippie/%s' % ctx.repo.name,
 				},
 				'when': {
 					'event': {
@@ -102,8 +102,8 @@ def manifest(ctx):
 						'linux/arm',
 						'linux/arm64',
 					],
-					'target': 'toolhippie/%s:latest' % ctx['repo']['name'],
-					'template': 'toolhippie/%s:ARCH' % ctx['repo']['name'],
+					'target': 'toolhippie/%s:latest' % ctx.repo.name,
+					'template': 'toolhippie/%s:ARCH' % ctx.repo.name,
 					'ignore_missing': True,
 				},
 			},
