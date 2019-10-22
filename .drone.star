@@ -10,6 +10,34 @@ def main(ctx):
 	]
 
 def docker(ctx, arch):
+	if arm == 'amd64':
+		readme = [{
+			'name': 'readme',
+			'image': 'sheogorath/readme-to-dockerhub',
+			'pull': 'always',
+			'environment': {
+				'DOCKERHUB_USERNAME': {
+					'from_secret': 'docker_username',
+				},
+				'DOCKERHUB_PASSWORD': {
+					'from_secret': 'docker_password',
+				},
+				'DOCKERHUB_REPO_PREFIX': 'toolhippie',
+				'DOCKERHUB_REPO_NAME': ctx.repo.name,
+				'SHORT_DESCRIPTION': 'Docker images for %s' % ctx.repo.name,
+				'README_PATH': 'README.md',
+			},
+			'when': {
+				'event': {
+					'exclude': [
+						'pull_request',
+					],
+				},
+			},
+		}]
+	else:
+		readme = []
+
 	return {
 		'kind': 'pipeline',
 		'type': 'docker',
@@ -60,31 +88,7 @@ def docker(ctx, arch):
 					},
 				},
 			},
-			{
-				'name': 'readme',
-				'image': 'sheogorath/readme-to-dockerhub',
-				'pull': 'always',
-				'environment': {
-					'DOCKERHUB_USERNAME': {
-						'from_secret': 'docker_username',
-					},
-					'DOCKERHUB_PASSWORD': {
-						'from_secret': 'docker_password',
-					},
-					'DOCKERHUB_REPO_PREFIX': 'toolhippie',
-					'DOCKERHUB_REPO_NAME': ctx.repo.name,
-					'SHORT_DESCRIPTION': 'Docker images for %s' % ctx.repo.name,
-					'README_PATH': 'README.md',
-				},
-				'when': {
-					'event': {
-						'exclude': [
-							'pull_request',
-						],
-					},
-				},
-			},
-		],
+		] + readme,
 		'depends_on': [],
 		'trigger': {
 			'ref': [
