@@ -1,11 +1,4 @@
-FROM webhippie/alpine:latest AS build
-
-ENV SHELLCHECK_VERSION v0.7.0
-
-RUN curl -sLo /tmp/shellcheck https://storage.googleapis.com/shellcheck/shellcheck-${SHELLCHECK_VERSION}.linux-x86_64 && \
-  chmod +x /tmp/shellcheck
-
-FROM webhippie/alpine:latest
+FROM webhippie/alpine:latest-amd64
 
 LABEL maintainer="Thomas Boerger <thomas@webhippie.de>" \
   org.label-schema.name="Shellcheck" \
@@ -18,4 +11,5 @@ RUN apk update && \
   apk upgrade && \
   rm -rf /var/cache/apk/*
 
-COPY --from=build /tmp/shellcheck /usr/bin/
+RUN wget -q -O /usr/bin/shellcheck https://storage.googleapis.com/shellcheck/shellcheck-v0.7.0.linux-x86_64 && \
+  chmod +x /usr/bin/shellcheck
