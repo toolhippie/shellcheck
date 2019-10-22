@@ -10,7 +10,7 @@ def main(ctx):
 	]
 
 def docker(ctx, arch):
-	if arm == 'amd64':
+	if arch == 'amd64':
 		readme = [{
 			'name': 'readme',
 			'image': 'sheogorath/readme-to-dockerhub',
