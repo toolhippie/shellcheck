@@ -128,7 +128,7 @@ def manifest(ctx):
 						'linux/arm64',
 					],
 					'target': 'toolhippie/%s:latest' % ctx.repo.name,
-					'template': 'toolhippie/%s:ARCH' % ctx.repo.name,
+					'template': 'toolhippie/%s:latest-ARCH' % ctx.repo.name,
 					'ignore_missing': True,
 				},
 			},
