@@ -3,7 +3,10 @@
 [![Build Status](https://cloud.drone.io/api/badges/toolhippie/shellcheck/status.svg)](https://cloud.drone.io/toolhippie/shellcheck)
 [![](https://images.microbadger.com/badges/image/toolhippie/shellcheck:latest.svg)](https://microbadger.com/images/toolhippie/shellcheck:latest "Get your own image badge on microbadger.com")
 
-TBD
+**All these images are used for various scriptings, it's possible that any of these tools are updated randomly**
+
+* [GitHub](https://github.com/toolhippie/shellcheck)
+* [Upstream](https://github.com/koalaman/shellcheck)
 
 
 ## Versions
