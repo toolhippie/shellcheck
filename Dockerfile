@@ -3,7 +3,7 @@ FROM webhippie/alpine:latest as build
 # renovate: datasource=github-releases depName=koalaman/shellcheck
 ENV SHELLCHECK_VERSION=0.7.2
 
-ARG TARGETARCH=amd64
+ARG TARGETARCH
 
 RUN apk add -U xz && \
   case "${TARGETARCH}" in \
