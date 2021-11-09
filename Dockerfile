@@ -1,7 +1,7 @@
 FROM webhippie/alpine:latest as build
 
 # renovate: datasource=github-releases depName=koalaman/shellcheck
-ENV SHELLCHECK_VERSION=0.7.2
+ENV SHELLCHECK_VERSION=0.8.0
 
 ARG TARGETARCH
 
