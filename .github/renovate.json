@@ -3,10 +3,12 @@
     "extends": [
         "github>webhippie/renovate:docker"
     ],
-    "packageRules": [{
-        "groupName": "shellcheck packages",
-        "matchDatasources": [
-            "github-releases"
-        ]
-    }]
+    "packageRules": [
+        {
+            "groupName": "shellcheck packages",
+            "matchDatasources": [
+                "github-releases"
+            ]
+        }
+    ]
 }
