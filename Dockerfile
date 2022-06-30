@@ -1,4 +1,4 @@
-FROM webhippie/alpine:3.15 as build
+FROM webhippie/alpine:3.16 as build
 
 # renovate: datasource=github-releases depName=koalaman/shellcheck
 ENV SHELLCHECK_VERSION=0.8.0
@@ -19,7 +19,7 @@ RUN apk add -U xz && \
 		*) echo >&2 "error: unsupported architecture '${TARGETARCH}'"; exit 1 ;; \
 	esac
 
-FROM webhippie/alpine:3.15
+FROM webhippie/alpine:3.16
 ENTRYPOINT [""]
 
 RUN apk update && \
