@@ -1,7 +1,7 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-        "github>webhippie/renovate:docker"
+        "github>toolhippie/.github//renovate/preset"
     ],
     "packageRules": [
         {
