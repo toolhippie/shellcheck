@@ -2,16 +2,5 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "github>toolhippie/.github//renovate/preset"
-    ],
-    "packageRules": [
-        {
-            "groupName": "shellcheck packages",
-            "matchDatasources": [
-                "github-releases"
-            ]
-        }
-    ],
-    "ignoreDeps": [
-        "docker/build-push-action"
     ]
 }
