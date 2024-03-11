@@ -77,6 +77,14 @@ labels:
     color: b60205
     description: Change or issue related to translations
 
+teams:
+  - name: admins
+    permission: admin
+  - name: boots
+    permission: admin
+  - name: members
+    permission: maintain
+
 branches:
   - name: master
     protection:
