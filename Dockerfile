@@ -1,7 +1,7 @@
 FROM ghcr.io/dockhippie/alpine:3.22 as build
 
 # renovate: datasource=github-releases depName=koalaman/shellcheck
-ENV SHELLCHECK_VERSION=0.10.0
+ENV SHELLCHECK_VERSION=0.11.0
 
 ARG TARGETARCH
 
