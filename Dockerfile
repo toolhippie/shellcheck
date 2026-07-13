@@ -1,4 +1,4 @@
-FROM ghcr.io/dockhippie/alpine:3.23@sha256:1cb712df5842561657169b93b1845cffa82de67560125cf22d49639566e32c1e as build
+FROM ghcr.io/dockhippie/alpine:3.23@sha256:f797bd00305b8c250138cee4e3c9354cac69ea97bb03d76cf527a9200221ec95 as build
 
 # renovate: datasource=github-releases depName=koalaman/shellcheck
 ENV SHELLCHECK_VERSION=0.11.0
@@ -19,7 +19,7 @@ RUN apk add -U xz && \
 		*) echo >&2 "error: unsupported architecture '${TARGETARCH}'"; exit 1 ;; \
 	esac
 
-FROM ghcr.io/dockhippie/alpine:3.23@sha256:1cb712df5842561657169b93b1845cffa82de67560125cf22d49639566e32c1e
+FROM ghcr.io/dockhippie/alpine:3.23@sha256:f797bd00305b8c250138cee4e3c9354cac69ea97bb03d76cf527a9200221ec95
 ENTRYPOINT [""]
 
 RUN apk update && \
